@@ -52,11 +52,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'registration.urls'
 import os
-TEMPLATES_DIR=os.path.join(BASE_DIR,'templates')
+TEMPLATE_DIR=os.path.join(BASE_DIR,'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,7 +132,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_HOST ='smtp.gmail.com'
 EMAIL_HOST_USER ='peerushaik313@gmail.com'
-EMAIL_HOST_PASSWORD ='skvvwxypuboziqgx'
+EMAIL_HOST_PASSWORD ='jkdwhfweleznbkkt'
 EMAIL_USE_TLS = True
 EMAIL_HOST_SSL = False
 EMAIL_PORT =587

@@ -23,27 +23,28 @@ def registration(request):
     EPFO=ProfileForm()
     d={'EUFO':EUFO,'EPFO':EPFO}
     
-    if request.method == 'POST' and request.FILES :
-        NMUFDO = UserForm(request.POST)
-        NMPFDO = ProfileForm(request.POST,request.FILES)
+    if request.method =='POST' and request.FILES :
+        NMUFDO=UserForm(request.POST)
+        NMPFDO=ProfileForm(request.POST,request.FILES)
         
         if NMUFDO.is_valid() and NMPFDO.is_valid():
-            MUFDO = NMUFDO.save(commit=False) #by using commit=false the data will not store into DB.
-            PW = NMUFDO.cleaned_data['password']
-            MUFDO.set_password(PW) #to encrpyt the data we use set_password.
-            MUFDO.save()
+            MUFDO=NMUFDO.save(commit=False)
             
-            MPFDO = NMPFDO.save(commit=False)
-            MPFDO.username = MUFDO
+            pw=NMUFDO.cleaned_data['password']
+            MUFDO.set_password(pw)
+            MUFDO.save()
+            MPFDO=NMPFDO.save(commit=False)
+            MPFDO.username=MUFDO
             MPFDO.save()
             
+            
+            
             send_mail('Registration',
-                      'Thank you for Registration.',
+                      'Thank u for registration',
                       'peerushaik313@gmail.com',
                       [MUFDO.email],
                       fail_silently=False,)
-            
-            return HttpResponse('Registration is Successsful')
+            return HttpResponse('Registration is succesfull')
         else:
             return HttpResponse('Invalid Data')
     return render(request,'reg.html',d)
@@ -65,3 +66,24 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))
+
+@login_required
+def profile_display(request):
+    username=request.session.get('username')
+    UO = User.objects.get(username=username)
+    PO = Profile.objects.get(username=UO)
+    d = {'UO':UO,'PO':PO}
+    return render(request,'profile_display.html',d)
+
+def change_password(request):
+    if request.method=='POST':
+        username=request.session.get('username')
+        UO=User.objects.get(username=username)
+        nw=request.POST['nw']
+        UO.set_password(nw)
+        UO.save()
+        return HttpResponse('Password Changed Successfully')
+
+    return render(request,'change_password.html')
+
+
